@@ -17,21 +17,6 @@ public class Rocket : MonoBehaviour
     enum State { Alive, Dying, Transcending };
     State state = State.Alive;
 
-    int currentLevel;
-
-    private void LoadNextScene() {
-        currentLevel += 1;
-        SceneManager.LoadScene(currentLevel);
-    }
-    private void LoadFirstScene() {
-        currentLevel = 0;
-        SceneManager.LoadScene(currentLevel);
-    }
-
-    private void LoadLevel(int level) {
-        SceneManager.LoadScene(level);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +33,12 @@ public class Rocket : MonoBehaviour
         }
     }
 
+    private void LoadNextScene() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    private void LoadFirstScene() {
+        SceneManager.LoadScene(0);
+    }
     void OnCollisionEnter(Collision collision) {
         if (state != State.Alive) { return; } // Ignore collisions when dead
 
@@ -90,11 +81,15 @@ public class Rocket : MonoBehaviour
     private void ApplyThrust(float deltaTime) {
         float thisFrameThrust = mainThrust * Time.deltaTime;
         rigidBody.AddRelativeForce(Vector3.up * thisFrameThrust);
+
+        if (!mainEngineParticles.isPlaying) {
+            mainEngineParticles.Play();
+        }
+
         if (!audioSource.isPlaying)
         {
             audioSource.PlayOneShot(mainEngine);
         }
-        mainEngineParticles.Play();
     }
 
     private void RespondToRotationInput()
