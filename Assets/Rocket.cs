@@ -42,8 +42,6 @@ public class Rocket : MonoBehaviour
     void OnCollisionEnter(Collision collision) {
         if (state != State.Alive) { return; } // Ignore collisions when dead
 
-        print("collision");
-
         switch(collision.gameObject.tag) {
             case "Friendly":
                 break;
