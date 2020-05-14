@@ -51,13 +51,22 @@ public class Rocket : MonoBehaviour
     }
     else if (Input.GetKeyDown(KeyCode.C))
     {
-        collisionsDisabled = ! collisionsDisabled;
+      collisionsDisabled = !collisionsDisabled;
     }
   }
 
   private void LoadNextScene()
   {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+    if (currentSceneIndex < SceneManager.sceneCountInBuildSettings)
+    {
+      SceneManager.LoadScene(currentSceneIndex + 1);
+    }
+    else {
+        LoadFirstScene();
+    }
+
   }
 
   private void LoadFirstScene()
