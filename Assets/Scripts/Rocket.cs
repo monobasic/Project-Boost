@@ -74,7 +74,7 @@ public class Rocket : MonoBehaviour
 
   void OnCollisionEnter(Collision collision)
   {
-    if (state != State.Alive || collisionsDisabled) { return; } // Ignore collisions when dead
+    if (state != State.Alive || collisionsDisabled) { return; }
 
     switch (collision.gameObject.tag)
     {
@@ -106,8 +106,7 @@ public class Rocket : MonoBehaviour
     }
     else
     {
-      audioSource.Stop();
-      mainEngineParticles.Stop();
+      StopApplyingThrust();
     }
   }
 
@@ -127,10 +126,16 @@ public class Rocket : MonoBehaviour
     }
   }
 
+  private void StopApplyingThrust()
+  {
+    audioSource.Stop();
+    mainEngineParticles.Stop();
+  }
+
   private void RespondToRotationInput()
   {
-    rigidBody.freezeRotation = true; // Take manual control of rotation
     float thisFrameRotation = rcsThrust * Time.deltaTime;
+    rigidBody.angularVelocity = Vector3.zero;
 
     if (Input.GetKey(KeyCode.D))
     {
@@ -140,7 +145,5 @@ public class Rocket : MonoBehaviour
     {
       transform.Rotate(Vector3.forward * thisFrameRotation);
     }
-
-    rigidBody.freezeRotation = false; // Resume physic control of rotation
   }
 }
