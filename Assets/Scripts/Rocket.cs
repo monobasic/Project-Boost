@@ -57,16 +57,14 @@ public class Rocket : MonoBehaviour
 
   private void LoadNextScene()
   {
-    int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
-    if (currentSceneIndex < SceneManager.sceneCountInBuildSettings)
+    int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+    if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
     {
-      SceneManager.LoadScene(currentSceneIndex + 1);
+      SceneManager.LoadScene(nextSceneIndex);
     }
     else {
         LoadFirstScene();
     }
-
   }
 
   private void LoadFirstScene()
